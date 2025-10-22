@@ -1,0 +1,93 @@
+const PostModel = require("../model/post-model");
+const UserModel = require("../model/user-model");
+
+exports.getPosts = async (req, res) => {
+  try {
+    console.log("Fetching all posts");
+    const queryParam = req.query.query;
+    console.log("Query param received:", queryParam);
+    let posts;
+    if (queryParam) {
+      posts = await PostModel.find({
+        $or: [
+          { description: { $regex: queryParam, $options: 'i' } },
+          { userName: { $regex: queryParam, $options: 'i' } }
+        ]
+      }).lean();
+    } else {
+      posts = await PostModel.find().lean();
+    }
+    console.log("Fetched posts count:", posts.length, "details:", posts);
+    res.status(200).json(posts);
+  } catch (err) {
+    console.error("Get posts error:", err);
+    res.status(400).json({ message: "Failed to fetch posts", error: err.message });
+  }
+};
+
+exports.createPost = async (req, res) => {
+  try {
+    console.log("Creating post with:", req.body, "req.userId:", req.userId);
+    const { userId, userName, ...postData } = req.body;
+
+    if (req.userId !== userId) {
+      return res.status(403).json({ message: "Unauthorized: User ID mismatch", reqUserId: req.userId, bodyUserId: userId });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user || user.userName !== userName) {
+      return res.status(400).json({ message: "Invalid userName for this user" });
+    }
+
+    const newPost = await PostModel.create({
+      ...postData,
+      userId,
+      userName,
+    });
+    console.log("Post saved successfully:", newPost._id, "with userId:", newPost.userId);
+    res.status(201).json(newPost);
+  } catch (err) {
+    console.error("Create post error:", err);
+    res.status(400).json({ message: "Failed to create post", error: err.message });
+  }
+};
+
+exports.getPost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await PostModel.findById(id);
+    if (!post) return res.status(404).json({ message: "Post not found" });
+    res.status(200).json(post);
+  } catch (err) {
+    console.error("Get post error:", err);
+    res.status(400).json({ message: "Failed to fetch post", error: err.message });
+  }
+};
+
+exports.deletePost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await PostModel.findOneAndDelete({ _id: id, userId: req.userId });
+    if (!post) return res.status(404).json({ message: "Post not found or unauthorized" });
+    res.status(200).json({ message: "Deleted" });
+  } catch (err) {
+    console.error("Delete post error:", err);
+    res.status(400).json({ message: "Failed to delete post", error: err.message });
+  }
+};
+
+exports.updatePost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedPost = await PostModel.findOneAndUpdate(
+      { _id: id, userId: req.userId },
+      req.body,
+      { new: true }
+    );
+    if (!updatedPost) return res.status(404).json({ message: "Post not found or unauthorized" });
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    console.error("Update post error:", err);
+    res.status(400).json({ message: "Failed to update post", error: err.message });
+  }
+};

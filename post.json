@@ -1,0 +1,11 @@
+{
+  "_id": "64f7b4567890abcdef123456",
+  "description": "This is an example post description.",
+  "userId": "64f7b1234567890abcdef123",
+  "userName": "example_user",
+  "userProfile": "https://example.com/profile.jpg",
+  "images": [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.jpg"
+  ]
+}

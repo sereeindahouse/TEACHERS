@@ -1,0 +1,6 @@
+{
+  "_id": "64f7b1234567890abcdef123",
+  "userName": "example_user",
+  "password": "$2b$10$hashedpasswordhere",
+  "profileImage": "https://example.com/profile.jpg"
+}
