@@ -8,7 +8,13 @@ const path = require("path");
 const cors = require("cors");
 
 app.use(express.json()); 
-app.use(cors({ origin: "http://localhost:3000" })); 
+app.use(cors({ 
+  origin: [
+    "http://localhost:3000", 
+    "https://teachers-frontend.onrender.com",
+    /\.onrender\.com$/
+  ] 
+})); 
 app.use("/", route); 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

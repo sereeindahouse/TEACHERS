@@ -15,6 +15,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   width: "320px", // Fixed width
@@ -99,7 +100,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
       try {
         setLoading(true);
         console.log("Fetching user with userId from prop:", userId, "localStorage userId:", localStorage.getItem("userId"));
-        const response = await axios.get(`http://localhost:8000/users/${userId}`, {
+        const response = await axios.get(`${API_BASE_URL}/users/${userId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         console.log("User fetched:", response.data);
@@ -114,7 +115,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
     };
     const fetchPosts = async () => {
       try {
-        const url = `http://localhost:8000/posts${searchQuery ? `?query=${encodeURIComponent(searchQuery)}` : ''}`;
+        const url = `${API_BASE_URL}/posts${searchQuery ? `?query=${encodeURIComponent(searchQuery)}` : ''}`;
         console.log("Fetching posts from:", url, "with userId:", userId, "token:", localStorage.getItem("token"));
         const response = await axios.get(url, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -141,7 +142,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
     const formData = new FormData();
     formData.append("image", imageFile);
     try {
-      const response = await axios.post("http://localhost:8000/upload", formData, {
+      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
@@ -168,7 +169,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
     try {
       console.log("Creating post with userId:", userId, "token:", localStorage.getItem("token"));
       const response = await axios.post(
-        "http://localhost:8000/posts",
+        `${API_BASE_URL}/posts`,
         {
           description,
           userId,
@@ -193,7 +194,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
 
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${postId}`, {
+      await axios.delete(`${API_BASE_URL}/posts/${postId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
@@ -212,7 +213,7 @@ export default function ResponsiveGrid({ userId, searchQuery = "" }) {
     }
     try {
       const response = await axios.patch(
-        `http://localhost:8000/posts/${editPost._id}`,
+        `${API_BASE_URL}/posts/${editPost._id}`,
         {
           description: editDescription,
           images: imageUrl ? [imageUrl] : editPost.images,

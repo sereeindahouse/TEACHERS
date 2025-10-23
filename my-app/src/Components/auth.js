@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -40,7 +41,7 @@ export default function Auth({ onLogin }) {
     try {
       console.log("Sending request to:", isLogin ? "/login" : "/signup", { userName, password });
       const endpoint = isLogin ? "/login" : "/signup";
-      const response = await axios.post(`http://localhost:8000${endpoint}`, {
+      const response = await axios.post(`${API_BASE_URL}${endpoint}`, {
         userName,
         password,
         profileImage: "https://example.com/default.jpg",

@@ -43,7 +43,7 @@ router
         return res.status(400).json({ message: err.message });
       }
       if (!req.file) return res.status(400).json({ message: "No image uploaded" });
-      const imageUrl = `http://localhost:8000/uploads/${req.file.filename}`;
+      const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
       console.log("Image saved at:", imageUrl);
       res.status(200).json({ message: "Image uploaded", imageUrl });
     });

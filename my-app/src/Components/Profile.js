@@ -15,6 +15,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   width: "320px",
@@ -94,7 +95,7 @@ export default function Profile({ userId }) {
   React.useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/users/${userId}`, {
+        const response = await axios.get(`${API_BASE_URL}/users/${userId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setUser(response.data);
@@ -106,7 +107,7 @@ export default function Profile({ userId }) {
 
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/posts", {
+        const response = await axios.get(`${API_BASE_URL}/posts`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         const userPosts = response.data.filter(post => post.userId === userId);
@@ -129,7 +130,7 @@ export default function Profile({ userId }) {
     const formData = new FormData();
     formData.append("image", editImageFile);
     try {
-      const response = await axios.post("http://localhost:8000/upload", formData, {
+      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
@@ -145,7 +146,7 @@ export default function Profile({ userId }) {
 
   const handleDeletePost = async (postId) => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${postId}`, {
+      await axios.delete(`${API_BASE_URL}/posts/${postId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
@@ -164,7 +165,7 @@ export default function Profile({ userId }) {
     }
     try {
       const response = await axios.patch(
-        `http://localhost:8000/posts/${editPost._id}`,
+        `${API_BASE_URL}/posts/${editPost._id}`,
         {
           description: editDescription,
           images: imageUrl ? [imageUrl] : editPost.images,
