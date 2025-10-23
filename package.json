@@ -1,5 +1,29 @@
 {
+  "name": "god-app",
+  "version": "1.0.0",
+  "description": "Full-stack application with React frontend and Node.js backend",
+  "main": "back-end/app.js",
+  "scripts": {
+    "start": "cd back-end && node app.js",
+    "dev": "cd back-end && nodemon app.js",
+    "install-backend": "cd back-end && npm install",
+    "install-frontend": "cd my-app && npm install",
+    "build-frontend": "cd my-app && npm run build",
+    "install-all": "npm run install-backend && npm run install-frontend"
+  },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongod": "^2.0.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.18.2",
+    "multer": "^2.0.2",
+    "nodemon": "^3.1.10",
+    "router": "^2.2.0",
     "git-filter-repo": "^0.0.30"
   }
 }

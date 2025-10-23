@@ -28,9 +28,9 @@ mongoose
 
 console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`Express app listening on http://localhost:${PORT}`);
+  console.log(`Express app listening on port ${PORT}`);
 });
 
 module.exports = app;
