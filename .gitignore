@@ -1,0 +1,68 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+package-lock.json  # Optional: Include if you don't want to commit lock files
+
+# Build output
+dist/
+build/
+out/
+coverage/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.cert
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.code-workspace
+
+# Temporary files
+*.tmp
+*.bak
+*.cache
+*~
+*.swp
+*.swo
+
+# Testing frameworks
+test-results/
+coverage/
+*.lcov
+
+# Miscellaneous
+*.pid
+*.seed
+*.pid.lock
+
+# Local development
+.local/
+tmp/
+
+# Optional: Ignore specific Node.js-related tools
+.eslintcache
+.prettierrc.cache
+tsconfig.tsbuildinfo
