@@ -12,7 +12,8 @@ app.use(cors({
   origin: [
     "http://localhost:3000", 
     "https://teachers-frontend.onrender.com",
-    /\.onrender\.com$/
+    /\.onrender\.com$/,
+    "https://back-end-s2rn.onrender.com"
   ] 
 })); 
 app.use("/", route); 
